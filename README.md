@@ -1,10 +1,18 @@
 # robocol_vision
 
-*Scripts-Rover* (Carpeta Scripts 2021 - una vez modificada, realizar la documentación del Script en el archivo .txt )
+Este es el repositorio del subsistema de Visión en robocol
 
-*Scripts-MateRov* (Carpeta Scripts 2021 - una vez modificada, realizar la documentación del Script en el archivo .txt )
+A continuación se presenta una descripción de las carpetas presentes
 
-*Markers* (Carpeta con los marcadores que se utilizan en ERC)
+## archived
 
-*SRC* (Carpeta scripts antes de 2021 - Esta algo desorganizada, favor utilizar las carpetas referentes a cada proyecto)
+Aquí están todos los archivos anteriores al 5 de Octubre de 2021
+
+## vision_python_repos
+
+Contiene repositorios de códigos en python, imagenes, redes neuronales y demás. No tiene nada que ver con ROS, son simplemente carpetas con scripts
+
+## vision_ws
+
+Es el wokspace de ROS de visión. Contiene 2 paquetes (por ahora solo 1) de un paquete de visión del rover y otro del submarino
 
