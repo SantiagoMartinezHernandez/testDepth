@@ -13,10 +13,11 @@ import random
 
 
 #Paths
-Path_img = "cosa"
-Path_mask = "cosa"
-weights_path = "C:\Users\SEBASTIAN\Documents\GitHub\robocolVision\robocolVision\Segmentation"
-path_csv = "C:\Users\SEBASTIAN\Documents\GitHub\robocolVision\robocolVision\Segmentation\logger.csv"
+Path_img = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/x_aug/"
+Path_mask = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/y_aug/"
+
+weights_path = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/"
+path_csv = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/logger.csv"
 
 #Path list images
 img_paths = [
@@ -35,9 +36,8 @@ mask_paths = [
    # ]
 
 
-
 #Split images
-cant_imagenes = 1 #Cuantas imagenes tenemos.
+cant_imagenes = 20000 #Cuantas imagenes tenemos.
 
 random.Random(40).shuffle(img_paths)
 random.Random(40).shuffle(mask_paths)
@@ -67,6 +67,8 @@ class images(Sequence):
         x = np.zeros((self.batch_size,) + self.img_size + (3,), dtype = "float32")
         for j, path in enumerate(batch_input_img_paths):
             img = load_img(path, target_size=self.img_size)
+            mx = np.max(img)
+            img = (img/mx) + 1 #Normalize the images.
             x[j] = img
         y = np.zeros((self.batch_size,) + self.img_size + (1,), dtype = "uint8")
         for j, path in enumerate(batch_mask_img_paths):
@@ -76,17 +78,16 @@ class images(Sequence):
         return x,y
 
 #Parameters
-No_Training_img = len(os.listdir(img_paths))
-No_Epochs = 30
-Batch_Size = 8
-Batch_Size_val = 4
-img_size = (224,224)
+No_Epochs = 15
+Batch_Size = 2
+Batch_Size_val = 2
+img_size = (480,640)
 
 
 #Base Model
 base_model = ResNet50V2(weights='imagenet',
                         include_top=False,
-                        input_shape=(224,224,3))
+                        input_shape=(480,640,3))
 base_model.trainable = False
 
 #Callbacks
@@ -97,7 +98,7 @@ earlyStopping = EarlyStopping(min_delta=0.01,patience=3)
 callbacks_list = [checkpoint,csv_logger,earlyStopping]
 
 #Top Model
-input = keras.Input(shape=(224,224,3))
+input = keras.Input(shape=(480,640,3))
 
 #Inferior of the model
 x = base_model(input,training = False)
@@ -122,9 +123,11 @@ val_gen = images(Batch_Size_val, img_size, val_img_paths, val_mask_paths)
 
 #Model compile and fit
 model.compile(
-    optimizer = 'rmsprop',
+    optimizer = 'SGD',
     loss = 'sparse_categorical_crossentropy',
     metrics = [keras.metrics.SparseCategoricalCrossentropy()]
 )
 
 model.fit(train_gen,epochs=No_Epochs,validation_data=val_gen, callbacks=callbacks_list)
+
+model.predict()
