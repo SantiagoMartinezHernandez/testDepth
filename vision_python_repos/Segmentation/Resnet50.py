@@ -12,12 +12,19 @@ from tensorflow.keras.preprocessing.image import load_img
 import random 
 
 
-#Paths
-Path_img = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/x_aug/"
-Path_mask = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/y_aug/"
+#Paths supercomputer Uniandes
+Path_img = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/x_aug/"
+Path_mask = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/y_aug/"
 
-weights_path = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/"
-path_csv = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/logger.csv"
+weights_path = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/weights/"
+path_csv = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/weights/logger.csv"
+
+#Paths_personal computer
+#Path_img = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/x_aug/"
+#Path_mask = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/y_aug/"
+
+#weights_path = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/"
+#path_csv = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/logger.csv"
 
 #Path list images
 img_paths = [
@@ -123,11 +130,9 @@ val_gen = images(Batch_Size_val, img_size, val_img_paths, val_mask_paths)
 
 #Model compile and fit
 model.compile(
-    optimizer = 'SGD',
+    optimizer = 'rmsprop',
     loss = 'sparse_categorical_crossentropy',
     metrics = [keras.metrics.SparseCategoricalCrossentropy()]
 )
 
 model.fit(train_gen,epochs=No_Epochs,validation_data=val_gen, callbacks=callbacks_list)
-
-model.predict()
