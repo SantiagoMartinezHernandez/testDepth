@@ -1,8 +1,9 @@
-"""
+"""characterization
+
 Cristóbal Arroyo
 
-Para correr el código es necesario haber instalado anteriormente opencv,
-para ello, abra una terminal powershell o CMD normal
+Para correr el código es necesario haber instalado anteriormente OpenCV.
+Para ello, abra una terminal powershell o CMD normal
 
 (Win+X -> Windows Powershell)
 
@@ -13,8 +14,6 @@ python -m pip install opencv-python
 
 import image_grid
 import cv2
-
-# import sys
 
 cap = cv2.VideoCapture(0)
 

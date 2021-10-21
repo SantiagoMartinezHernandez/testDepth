@@ -1,6 +1,14 @@
 import pyrealsense2 as rs
 import numpy as np
 
+"""
+Caracterización:
+
+FOV: Aproximadamente 80°, comenzando desde el 50° terminando en 130°
+
+
+"""
+
 class DepthCamera:
     def __init__(self):
         # Configure depth and color streams
@@ -20,6 +28,14 @@ class DepthCamera:
         self.pipeline.start(config)
 
     def get_frame(self):
+        """
+        Returns
+        -------
+        tupla
+            False, None, None si no es posible obtener la imagen
+        tupla
+            True, depth_image, color_image, colorized_depth si se puede recibir la imagen
+        """
         frames = self.pipeline.wait_for_frames()
         depth_frame = frames.get_depth_frame()
         color_frame = frames.get_color_frame()

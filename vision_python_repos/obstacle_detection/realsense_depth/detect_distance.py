@@ -73,7 +73,7 @@ CHARACTERIZATION = True
 point = (400,300)
 cap_index = 0
 
-grilla_cols = 16
+grilla_cols = 8
 grilla_rows = 1
 umbral_distancia = 850
 umbral_proporcion = 0.6
@@ -165,16 +165,12 @@ while True:
     cv2.imshow("color_frame", color_frame)
 
     """
-    # Con esta función se guardan los frames
+    # Con esta función se guardan los frames en el video
 
     result1.write(cv2.applyColorMap(cv2.convertScaleAbs(depth_frame, alpha=0.03), cv2.COLORMAP_JET))
     result2.write(color_frame)
     """
 
-    # Descomentar lo siguiente en modo debug
-
-    # cv2.imshow("depth frame", cv2.applyColorMap(cv2.convertScaleAbs(depth_frame, alpha=0.03), cv2.COLORMAP_JET))
-    # cv2.imshow("depth colorizer frame", colorized_depth)
     key = cv2.waitKey(1)
     if key == ord('s'):
         print(f"Guardando en {capture_path}\\captures\\")
