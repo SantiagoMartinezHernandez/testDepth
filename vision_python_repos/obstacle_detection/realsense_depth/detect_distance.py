@@ -78,6 +78,55 @@ grilla_rows = 1
 umbral_distancia = 850
 umbral_proporcion = 0.6
 
+def matrixCreator(grilla_cols,grilla_rows):
+    list=[]
+    matrix=[]
+    for i in range(grilla_cols):
+        list.append(0)
+    for j in range(grilla_rows):
+        matrix.append(list)
+    return matrix
+
+def listCreator(grilla_cols):
+    lt=[]
+    for i in range(grilla_cols):
+        lt.append(0)
+    return lt
+
+def DepthMatrixtoDepthRangos(grilla_cols,grilla_rows,matrix):
+    final=[]
+    inicial=None
+    rangos=[]
+    pos=-1
+    for j in range(grilla_cols):
+        print(final)
+        lt=[]
+        prom=0
+        for i in range(grilla_rows):
+            depth=matrix[i][j]
+            if depth != 0:
+                lt.append(1)
+            prom+=depth
+        if len(lt)!=0:
+            prom=prom/len(lt)
+        else:
+            prom=0
+        final.append(prom)
+    for k in range(len(final)):
+        value=final[k]
+        if value != 0 and inicial == None:
+    
+            ran1=[k,value]
+            rangos.append((ran1,ran1))
+            inicial=ran1
+            pos+=1
+        elif value != 0 and k > inicial[0]:
+            ran2=[k,value]
+            rangos[pos]=(inicial,ran2)
+        else:
+            inicial= None
+    return rangos
+
 def show_distance(event, x, y, args, params):
     global point
     point = (x, y)
@@ -144,7 +193,7 @@ while True:
     cv2.imshow("colorized_depth", colorized_depth)
 
     # Se calcula la proporción de cada una, y se muestra el obstáculo en pantalla
-
+    m=matrixCreator(grilla_cols,grilla_rows)
     for i in range(grilla_rows):
         for j in range(grilla_cols):
             if CHARACTERIZATION:
@@ -154,8 +203,10 @@ while True:
                 if verificacion(proporcion_img):       
                     # print(f"proporcion [{i}][{j}] -> {proporcion_img}")
                     cv2.rectangle(color_frame, ((x//grilla_cols)*j,(y//grilla_rows)*i), ((x//grilla_cols)*(j+1),(y//grilla_rows)*(i+1)), (0,0,255), 5)
+                    m[i][j]=depth_frame[(x//grilla_cols)*j,(y//grilla_rows)*(i+1)/2]
 
-
+    rangos=DepthMatrixtoDepthRangos(grilla_cols,grilla_rows,m)
+    print(rangos)
     # A continuación se muestra la distancia hacia un punto específico
     if (MOUSE_DEBUG):
         cv2.circle(color_frame, point, 4, (0, 0, 255))

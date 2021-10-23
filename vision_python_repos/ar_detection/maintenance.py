@@ -43,13 +43,17 @@ def ordenar_puntos(puntos):
 
 # img = cv2.imread('panel3.jpeg')
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 
 while True:
+    success, img = cap.read()
+    if img is None:
+        break
+    originalImg = img.copy()
     _, img = cap.read()
 
     # originalImg = cv2.imread('panel3.jpeg')
-    originalImg = img.copy()
+    # originalImg = img.copy()
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray, (7,7), 0)
     mask = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,9,2)
