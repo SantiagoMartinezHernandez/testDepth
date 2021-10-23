@@ -69,12 +69,12 @@ from realsense_depth.depth_module import *
 from realsense_depth.image_grid import *
 
 MOUSE_DEBUG = True
-CHARACTERIZATION = True
+CHARACTERIZATION = False
 point = (400,300)
 cap_index = 0
 
 grilla_cols = 8
-grilla_rows = 1
+grilla_rows = 3
 umbral_distancia = 850
 umbral_proporcion = 0.6
 
@@ -93,13 +93,13 @@ def listCreator(grilla_cols):
         lt.append(0)
     return lt
 
+# TODO arreglar la complejidad
 def DepthMatrixtoDepthRangos(grilla_cols,grilla_rows,matrix):
     final=[]
     inicial=None
     rangos=[]
     pos=-1
     for j in range(grilla_cols):
-        print(final)
         lt=[]
         prom=0
         for i in range(grilla_rows):
@@ -203,7 +203,7 @@ while True:
                 if verificacion(proporcion_img):       
                     # print(f"proporcion [{i}][{j}] -> {proporcion_img}")
                     cv2.rectangle(color_frame, ((x//grilla_cols)*j,(y//grilla_rows)*i), ((x//grilla_cols)*(j+1),(y//grilla_rows)*(i+1)), (0,0,255), 5)
-                    m[i][j]=depth_frame[(x//grilla_cols)*j,(y//grilla_rows)*(i+1)/2]
+                    m[i][j]=depth_frame[(y//grilla_rows)*(i+1)//2,(x//grilla_cols)*j]
 
     rangos=DepthMatrixtoDepthRangos(grilla_cols,grilla_rows,m)
     print(rangos)
