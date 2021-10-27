@@ -37,7 +37,7 @@ def main():
         # DO ANYTHING WITH THE FRAME
 
         if send_image:
-            imgMsg = bridge.cv2_to_imgmsg(frame)
+            imgMsg = bridge.cv2_to_imgmsg(frame, "bgr8")
             pub.publish(imgMsg)
             rospy.Rate(100).sleep()
 

@@ -1,8 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import rospy
 from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 from std_msgs.msg import Float32
-# from cv_bridge import CvBridge
+from cv_bridge import CvBridge
 import cv2
 
 import numpy as np
@@ -26,24 +27,9 @@ def process_image(msg):
     global pub
     global bandera
 
-    # img = CvBridge().imgmsg_to_cv2(msg)
-    img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, -1)
-
-    # if bandera: 
-    #     bandera = not bandera
-    #     print(type(msg))
-    #     print("-----------------------")
-    #     print(type(img))
-    #     print("-----------------------")
-    #     print(img.__repr__())
-    #     print("-----------------------")
-    #     print(img)
+    img = CvBridge().imgmsg_to_cv2(msg, "bgr8")
 
     showImage(img)
-
-    # file = open("msgs.txt", 'w')
-    # file.write(str(img)+"\n")
-    # file.close()
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
