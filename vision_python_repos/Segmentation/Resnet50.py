@@ -11,12 +11,20 @@ from tensorflow.keras.utils import Sequence
 from tensorflow.keras.preprocessing.image import load_img
 import random 
 
-#Paths
-Path_img = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/x_aug/"
-Path_mask = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/y_aug/"
 
-weights_path = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/"
-path_csv = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/logger.csv"
+#Paths supercomputer Uniandes
+Path_img = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/x_aug/"
+Path_mask = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/y_aug/"
+
+weights_path = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/weights/"
+path_csv = "C:/Users/Imagine/Documents/Robocol_vision/img_aug/weights/logger.csv"
+
+#Paths_personal computer
+#Path_img = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/x_aug/"
+#Path_mask = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/y_aug/"
+
+#weights_path = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/"
+#path_csv = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/Documentos/img_aug/weights/logger.csv"
 
 #Path list images
 img_paths = [
