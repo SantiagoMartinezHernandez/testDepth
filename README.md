@@ -16,3 +16,6 @@ Contiene repositorios de códigos en python, imagenes, redes neuronales y demás
 
 Es el wokspace de ROS de visión. Contiene 2 paquetes (por ahora solo 1) de un paquete de visión del rover y otro del submarino
 
+## docs
+
+Contiene documentos importantes del subsistema
