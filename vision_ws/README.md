@@ -72,9 +72,13 @@ rosrun video_server web_video_server
 # Agradecimientos
 
 A continuación se muestra la referencia de los paquetes utilizados externamente:
-
+## Repositorios
 async_web_server_cpp: https://github.com/fkie/async_web_server_cpp/tree/ros1-releases
+
 web_video_server: https://github.com/RobotWebTools/web_video_server/tree/master
 
+## Organizaciones
+
 Robot Web Tools: https://github.com/RobotWebTools
+
 Fraunhofer FKIE: https://github.com/fkie
