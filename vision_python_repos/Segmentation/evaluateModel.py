@@ -1,5 +1,7 @@
 import tensorflow_advanced_segmentation_models as tasm
 import cv2
+from tensorflow import keras
+import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -9,13 +11,16 @@ N_classes = 3
 backbone_name = "efficientnetb1"
 weights = "imagenet"
 
-path_weights = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/OctavoSemestre/Robocol_vision/Modelo_3_clases/modelo1/"
-path_video = "C:/Users/SEBASTIAN/Videos/video_1.avi"
+#path_weights = "C:/Users/SEBASTIAN/OneDrive - Universidad de los Andes/OctavoSemestre/Robocol_vision/Modelo_3_clases/modelo1/"
+path_video = "C:/Users/Imagine/Videos/output.avi"
 
+#path_model = "C:/Users/Imagine/Documents/Robocol_vision/Data_set_split/Modelo_2/modelo.h5"
+path_weights = "C:/Users/Imagine/Documents/Robocol_vision/Data_set_split/Modelo_3/"
 #Model
 base_model, layers, layer_names = tasm.create_base_model(name=backbone_name, weights=weights, height=HEIGHT, width=WIDTH, include_top=False, pooling=None)
 BACKBONE_TRAINABLE = False
 model = tasm.DANet(n_classes=N_classes, base_model=base_model, output_layers=layers, backbone_trainable=BACKBONE_TRAINABLE)
+
 
 #Load_weights
 prueba = model.load_weights(path_weights)
