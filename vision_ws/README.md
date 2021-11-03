@@ -51,10 +51,37 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
 )
-
 ```
 
-### Carpeta scripts
+## Ejecución de los paquetes
+
+### Roslaunch
+
+El paquete `vision_rover` contiene un archivo llamado `cam_init.launch` el cual puede ejecutarse en una terminal con el comando:
+
+```
+roslaunch vision_rover cam_init.launch
+```
+
+Este lanza un el servidor web de cámaras y una sola cámara de indice '0' y de nombre '/cam1'. Posteriormente, para iniciar el envío del stream debe ejecutarse el comando:
+
+```
+rostopic pub /cam1_signal std_msgs/Float32 --once 1
+```
+
+Para mostrar más cámaras simultáneamente, es necesario modificar el archivo `cam_init.launch` y agregar etiquetas con el siguiente formato:
+
+```
+<node name="[nombre nodo]" pkg="vision_rover" args="[nombre cámara] [indice cámara]" type="interface_camera_node.py"/>
+```
+
+Y adicionalmente enviarse las banderas respectivas para iniciar los streams
+
+```
+rostopic pub /[nombre cámara]_signal std_msgs/Float32 --once 1
+```
+
+### Rosrun de carpeta scripts
 
 La carpeta scripts contiene todos los nodos necesarios para que se ejecute cada cámara.
 Para ejecutarlos es necesario insertar los siguientes comandos en una terminal de bash:
@@ -68,15 +95,18 @@ source devel/setup.bash
 Y en diferentes terminales ejecutar los siguientes comandos:
 ```
 roscore
-rosrun vision_rover interface_cam1_node.py
-rosrun vision_rover interface_cam2_node.py
+rosrun vision_rover interface_camera_node.py /cam1 0
+rosrun vision_rover interface_depth_node.py
 ```
+
+> Para ejecutar el nodo de la depth es necesario tener conectada la cámara, los controladores y las liberías necesarias
 
 Y para comprobar el funcionamiento internamente ejecutar (en terminales distintas):
 ```
 rosrun vision_rover interface_cam1_test.py
 rosrun vision_rover interface_cam2_test.py
 rostopic pub /cam1_signal std_msgs/Float32 --once 1
+rostopic pub /cam2_signal std_msgs/Float32 --once 1
 ```
 
 ## Paquetes async_web_server_cpp y web_vision_server

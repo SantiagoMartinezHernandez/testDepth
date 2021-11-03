@@ -22,7 +22,6 @@ global send_image
 
 # CONSTANTS PARAMETERS FOR CAMERAS BELOW
 CAMERA_NAME = '/cam2'
-CAMERA_INDEX = 1
 
 send_image = False
 
