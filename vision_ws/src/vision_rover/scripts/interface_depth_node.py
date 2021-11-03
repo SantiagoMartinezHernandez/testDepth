@@ -31,7 +31,7 @@ def main():
     cap = DepthCamera()
     bridge = CvBridge()
     print("[INFO] About to start stream. Waiting for signal")
-    while(1):
+    while(not rospy.is_shutdown()):
         _, depth_frame, frame, colorized_depth = cap.read()
         # DO ANYTHING WITH THE FRAME
 
