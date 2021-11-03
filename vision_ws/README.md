@@ -7,6 +7,11 @@ Para empezar, es necesario clonar el repositorio y ejecutar en el directorio de 
 ```
 sudo apt isntall ros-melodic-vision-opencv
 catkin_make install
+``` 
+
+En el caso de la jetson ejecutar adicionalmente
+```
+sudo ln -s /usr/include/opencv4/opencv2/ /usr/include/opencv
 ```
 En caso de que el `catkin_make` no funcione ejecutar:
 ```
