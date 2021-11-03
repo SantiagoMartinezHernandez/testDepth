@@ -1,0 +1,14 @@
+<launch>
+    <!-- A continuación se inicia el server de video web -->
+    <node name="web_cam_server" pkg="web_video_server" type="web_video_server"/>
+
+    <!-- A continuación se inician los nodos de todas las cámaras que se utilicen -->
+    <node name="cam1_streamer" pkg="vision_rover" args="/cam1 0" type="interface_camera_node.py"/>
+
+    <!-- Descomentar para iniciar nodos de prueba -->
+    <!--
+
+        <node name="cam1_tester" pkg="vision_rover" type="interface_camera1_test.py"/>
+
+    -->
+</launch>
