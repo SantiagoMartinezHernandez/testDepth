@@ -5,7 +5,13 @@ Este es el workspace de visión que trabajará robocol.
 Para empezar, es necesario clonar el repositorio y ejecutar en el directorio de vision_ws:
 
 ```
+sudo apt isntall ros-melodic-vision-opencv
 catkin_make install
+```
+En caso de que el `catkin_make` no funcione ejecutar:
+```
+catkin_make --only-pkg-with-deps async_web_server_cpp 
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
 Este comando creará las carpetas ```build``` y ```devel```.
@@ -30,6 +36,22 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
 )
+```
+
+Nota:
+> En la jetson los paquetes son diferentes, escribir:
+
+```
+set(OpenCV_INCLUDE_DIRS "/usr/include/opencv4/opencv2;/usr/include")
+find_package( OpenCV REQUIRED )
+include_directories(  ${catkin_INCLUDE_DIRS}  ${OpenCV_INCLUDE_DIRS} )
+find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
+  rospy
+  sensor_msgs
+  std_msgs
+)
+
 ```
 
 ### Carpeta scripts
