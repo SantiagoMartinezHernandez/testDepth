@@ -19,6 +19,8 @@ catkin_make --only-pkg-with-deps async_web_server_cpp
 catkin_make -DCATKIN_WHITELIST_PACKAGES=""
 ```
 
+Si aun así el catkin_make sigue crasheando será necesario clonar el repositorio de web_video_server na vez má
+
 Este comando creará las carpetas ```build``` y ```devel```.
 
 Posteriormente es necesario ejecutar
