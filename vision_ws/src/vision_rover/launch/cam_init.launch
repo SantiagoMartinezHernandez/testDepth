@@ -5,6 +5,9 @@
     <!-- A continuación se inician los nodos de todas las cámaras que se utilicen -->
     <node name="cam1_streamer" pkg="vision_rover" args="/cam1 0" type="interface_camera_node.py"/>
 
+    <!-- A continuación se inician los nodos de image_transport para comprimir las imágenes -->
+    <node name="cam1_compressor" pkg="image_transport" args="in:=/cam1 raw out:=/cam1 compressed" type="republish"/>
+
     <!-- Descomentar para iniciar nodos de prueba -->
     <!--
 

@@ -32,6 +32,8 @@ from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from std_msgs.msg import Float32
 
+from utils import image_filters as imf
+
 global send_image
 
 # CONSTANTS PARAMETERS FOR CAMERAS BELOW
@@ -43,22 +45,21 @@ if len(sys.argv) > 1:
     CAMERA_NAME = sys.argv[1]
     CAMERA_INDEX = int(sys.argv[2])
 
-send_image = False
+send_image = 0
 
 def main():
     try:
-        pub = rospy.Publisher(CAMERA_NAME, Image, queue_size=10)
+        pub = rospy.Publisher(CAMERA_NAME, Image, queue_size=2)
         sub = rospy.Subscriber(CAMERA_NAME+'_signal', Float32, receive_signal)
-        cap= cv2.VideoCapture(CAMERA_INDEX)
+        cap = cv2.VideoCapture(CAMERA_INDEX)
         bridge = CvBridge()
+        rospy.loginfo("About to start stream. Waiting for signal")
     except Exception as e:
         rospy.logwarn(e)
-
-    rospy.loginfo("About to start stream. Waiting for signal")
-
+    
     while(not rospy.is_shutdown()):
         try:
-            _, frame= cap.read()
+            ret, frame= cap.read()
 
             # DO ANYTHING WITH THE FRAME
         
@@ -66,11 +67,19 @@ def main():
             if key == ord('q'):
                 raise KeyboardInterrupt
 
-            if send_image:
-                imgMsg = bridge.cv2_to_imgmsg(frame, "bgr8")
+            if send_image != 0:
+                if send_image == 1:
+                    imgMsg = bridge.cv2_to_imgmsg(frame, "bgr8")
+                elif send_image == 2:
+                    imgMsg = bridge.cv2_to_imgmsg(imf.gray(frame), "mono8")
+                elif send_image == 3:
+                    imgMsg = bridge.cv2_to_imgmsg(imf.threshold(imf.gray(frame)), "mono8")
+                elif send_image == 4:
+                    imgMsg = bridge.cv2_to_imgmsg(imf.edges(frame), "bgr8")
                 pub.publish(imgMsg)
-                rospy.Rate(100).sleep()
 
+                rospy.Rate(100).sleep()
+            
         except KeyboardInterrupt as ki:
             cap.release()
             cv2.destroyAllWindows()
@@ -78,6 +87,7 @@ def main():
         except TypeError as te:
             cap.release()
             cv2.destroyAllWindows()
+            rospy.logerr(te.message)
             rospy.logerr("Cannot read frame from index {}".format(CAMERA_INDEX))
             rospy.logerr("Camera connection closed")
             return
@@ -86,13 +96,16 @@ def main():
 
 def receive_signal(data):
     global send_image
-
-    if data == Float32(1):
-        send_image = True
-        rospy.loginfo("Image Stream for {} opened".format(CAMERA_NAME))
-    else:
-        send_image = False
+    send_image = data.data
+    if send_image == 0:
         rospy.loginfo("Image Stream for {} closed".format(CAMERA_NAME))
+    elif send_image == 1:
+        rospy.loginfo("Raw image Stream for {} opened".format(CAMERA_NAME))
+    elif send_image == 2:
+        rospy.loginfo("Gray image Stream for {} opened".format(CAMERA_NAME))
+    elif send_image == 3:
+        rospy.loginfo("Threshold image Stream for {} opened".format(CAMERA_NAME))
+        
         
 
 # rospy.init_node('cam1_node')
